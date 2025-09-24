@@ -1,0 +1,36 @@
+{
+  "name": "nodejs-hw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js",
+    "start": "npm start src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/merci54/nodejs-hw.git"
+  },
+  "keywords": [],
+  "author": "Yaroslav Lytvyn <Yaroslavlit@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/merci54/nodejs-hw/issues"
+  },
+  "homepage": "https://github.com/merci54/nodejs-hw#readme",
+  "description": "",
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "eslint": "^9.36.0",
+    "globals": "^16.4.0",
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "pino-http": "^10.5.0",
+    "pino-pretty": "^13.1.1"
+  }
+}
