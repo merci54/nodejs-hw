@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { User } from '../models/user.js';
 import createHttpError from 'http-errors';
-import { createSession, setSessionCookie } from '../services/auth.js';
+import { createSession, setSessionCookies } from '../services/auth.js';
 import { Session } from '../models/session.js';
 
 export const registerUser = async (req, res, next) => {
@@ -10,7 +10,7 @@ export const registerUser = async (req, res, next) => {
   let isUserExist = await User.findOne({ email });
 
   if (isUserExist) {
-    return next(createHttpError(500, 'This email has already exists'));
+    return next(createHttpError(400, 'This email has already exists'));
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -20,7 +20,7 @@ export const registerUser = async (req, res, next) => {
   });
 
   const newSession = await createSession(user._id);
-  setSessionCookie(res, newSession);
+  setSessionCookies(res, newSession);
 
   res.status(201).json(user);
 };
@@ -44,7 +44,7 @@ export const loginUser = async (req, res, next) => {
   });
 
   const newSession = await createSession(user._id);
-  setSessionCookie(res, newSession);
+  setSessionCookies(res, newSession);
 
   res.status(200).json(user);
 };
@@ -64,7 +64,7 @@ export const logoutUser = async (req, res) => {
   res.status(204).send();
 };
 
-export const refreshSession = async (req, res, next) => {
+export const refreshUserSession = async (req, res, next) => {
   const { sessionId, refreshToken } = req.cookies;
 
   const session = await Session.findOne({
@@ -88,27 +88,9 @@ export const refreshSession = async (req, res, next) => {
   });
 
   const newSession = await createSession(session.userId);
-  setSessionCookie(res, newSession);
+  setSessionCookies(res, newSession);
 
   res.status(200).json({
     message: 'Session refreshed',
   });
-};
-
-export const getUser = async (req, res, next) => {
-  const { sessionId } = req.cookies;
-
-  const session = await Session.findOne({
-    _id: sessionId,
-  });
-
-  if (!session) {
-    return next(createHttpError(401, 'Session was not found or invalid'));
-  }
-
-  const user = await User.findOne({
-    _id: session.userId,
-  });
-
-  res.status(200).json(user);
 };

@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 const userSchema = new Schema(
   {
     username: { type: String, trim: true },
-    email: { type: String, required: true, trim: true },
+    email: { type: String, required: true, trim: true, unique: true },
     password: { type: String, required: true },
   },
   {
@@ -25,4 +25,4 @@ userSchema.methods.toJSON = function () {
   return obj;
 };
 
-export const User = model('users', userSchema);
+export const User = model('User', userSchema);
