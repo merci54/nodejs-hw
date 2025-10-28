@@ -8,6 +8,7 @@ import { errorHandler } from './middleware/errorHandler.js';
 import { connectMongoDB } from './db/connectMongoDB.js';
 import notesRouters from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import cookieParser from 'cookie-parser';
 
 const PORT = process.env.PORT ?? 3000;
@@ -20,6 +21,7 @@ app.use(cookieParser());
 
 app.use(notesRouters);
 app.use(authRoutes);
+app.use(userRoutes);
 
 app.use(notFoundHandler);
 app.use(errors());
