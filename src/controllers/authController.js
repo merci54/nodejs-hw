@@ -134,7 +134,7 @@ export const requestResetEmail = async (req, res, next) => {
 
     console.log(resetToken);
   } catch {
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Failed to send mail',
     });
   }
